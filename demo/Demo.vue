@@ -8,14 +8,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({ 
-})
+@Component({})
 export default class Demo extends Vue {
   a = 1
   b = 1
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

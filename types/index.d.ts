@@ -14,6 +14,4 @@ declare module 'vue/types/vue' {
 }
 
 // NOTE: if you don't need, you should remove!
-export {
-  PluginAddFunction
-}
+export { PluginAddFunction }
