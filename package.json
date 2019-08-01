@@ -1,18 +1,31 @@
 {
   "name": "karuselo",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "demo": "vue-cli-service demo",
+    "docs": "npm run docs:serve",
+    "docs:build": "vue-cli-service docs --mode build",
+    "docs:serve": "vue-cli-service docs --mode serve",
+    "prepublish": "vue-cli-service lint && vue-cli-service docs --mode build && vue-cli-service build",
+    "start": "vue-cli-service serve",
     "test:unit": "vue-cli-service test:unit"
   },
+  "main": "dist/karuselo.common.js",
+  "module": "dist/karuselo.esm.js",
+  "unpkg": "dist/karuselo.umd.min.js",
+  "files": [
+    "dist/karuselo.common.js",
+    "dist/karuselo.umd.min.js",
+    "dist/karuselo.umd.js",
+    "dist/karuselo.esm.js",
+    "src",
+    "types/index.d.ts"
+  ],
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0"
+    "core-js": "^2.6.5"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
@@ -30,7 +43,11 @@
     "eslint-plugin-vue": "^5.0.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
-    "vue-template-compiler": "^2.6.10"
+    "vue-cli-plugin-p11n": "^0.3.0",
+    "vue-template-compiler": "^2.6.10",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0"
   },
   "eslintConfig": {
     "root": true,
@@ -92,5 +109,8 @@
         "babelConfig": true
       }
     }
-  }
+  },
+  "jsdelivr": "dist/karuselo.umd.min.js",
+  "sideeffects": false,
+  "types": "types/index.d.ts"
 }
