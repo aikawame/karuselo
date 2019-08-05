@@ -1,4 +1,6 @@
 import { VueConstructor, PluginObject } from 'vue'
+import Carousel from './components/Carousel.vue'
+import Slide from './components/Slide.vue'
 
 declare global {
   interface Window {
@@ -14,9 +16,8 @@ const install = (Vue: VueConstructor): void => {
    *   if you need to extend Vue contstructor, you can extend it in here.
    */
 
-  Vue.prototype.$add = (a: number, b: number): number => {
-    return a + b
-  }
+  Vue.component('carousel', Carousel)
+  Vue.component('slide', Slide)
 
   /*
    * NOTE:
