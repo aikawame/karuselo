@@ -123,6 +123,5 @@
     }
   },
   "jsdelivr": "dist/karuselo.umd.min.js",
-  "sideeffects": false,
-  "types": "types/index.d.ts"
+  "sideeffects": false
 }
