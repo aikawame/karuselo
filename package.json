@@ -1,6 +1,14 @@
 {
   "name": "karuselo",
   "version": "0.1.0",
+  "description": "Carousel components for Vue.js",
+  "keywords": [
+    "vue",
+    "carousel"
+  ],
+  "homepage": "https://github.com/aikawame/karuselo",
+  "license": "MIT",
+  "author": "Masahiro Aikawa",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
