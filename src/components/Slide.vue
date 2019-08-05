@@ -8,8 +8,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component
-export default class Slide extends Vue {
-}
+export default class Slide extends Vue {}
 </script>
 
 <style scoped>
