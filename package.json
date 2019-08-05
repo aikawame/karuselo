@@ -29,11 +29,11 @@
     "dist/karuselo.umd.min.js",
     "dist/karuselo.umd.js",
     "dist/karuselo.esm.js",
-    "src",
-    "types/index.d.ts"
+    "src"
   ],
   "dependencies": {
-    "core-js": "^2.6.5"
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
@@ -51,11 +51,10 @@
     "eslint-plugin-vue": "^5.0.0",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
-    "vue-cli-plugin-p11n": "^0.3.0",
-    "vue-template-compiler": "^2.6.10",
-    "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
-    "vue-property-decorator": "^8.1.0"
+    "vue-cli-plugin-p11n": "^0.3.0",
+    "vue-property-decorator": "^8.1.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,
