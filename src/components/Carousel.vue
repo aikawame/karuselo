@@ -1,12 +1,12 @@
 <template>
   <div class="karuselo-carousel">
-    <div class="karuselo-arrow karuselo-arrow-left" @click="forceBackward"></div>
+    <div class="karuselo-arrow karuselo-prev" @click="forceBackward"></div>
     <div class="karuselo-slider" @mouseenter="isFocused = true" @mouseleave="isFocused = false">
       <div class="karuselo-list">
         <slot></slot>
       </div>
     </div>
-    <div class="karuselo-arrow karuselo-arrow-right" @click="forceForward"></div>
+    <div class="karuselo-arrow karuselo-next" @click="forceForward"></div>
   </div>
 </template>
 
