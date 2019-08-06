@@ -122,7 +122,7 @@ export default class Carousel extends Vue {
 
   firstLazyload(): void {
     for (let index = 0; index <= this.slidesToShow + 1; index++) {
-      Carousel.lazyload(this.slideNodes[index].querySelector('img, video'))
+      Carousel.lazyload(this.slideNodes[index].querySelectorAll('img, video'))
     }
   }
 
@@ -141,7 +141,7 @@ export default class Carousel extends Vue {
   forward(): void {
     if (this.isFocused || this.isSliding) return
     // console.log('forward')
-    Carousel.lazyload(this.slideNodes[this.currentIndex + this.slidesToShow + 1].querySelector('img, video'))
+    Carousel.lazyload(this.slideNodes[this.currentIndex + this.slidesToShow + 1].querySelectorAll('img, video'))
     if (this.currentIndex < this.slideNodes.length) this.currentIndex++
     this.translate()
   }
@@ -149,7 +149,7 @@ export default class Carousel extends Vue {
   backward(): void {
     if (this.isFocused || this.isSliding) return
     // console.log('backward')
-    Carousel.lazyload(this.slideNodes[0].querySelector('img, video'))
+    Carousel.lazyload(this.slideNodes[0].querySelectorAll('img, video'))
     if (this.currentIndex > 1) this.currentIndex--
     this.translate()
   }
@@ -214,10 +214,12 @@ export default class Carousel extends Vue {
     this.intervalId = setInterval(this.forward, this.autoplaySpeed + this.speed)
   }
 
-  static lazyload(mediaElement: HTMLImageElement | HTMLVideoElement | null): void {
-    if (mediaElement === null || !mediaElement.hasAttribute('data-lazy')) return
-    mediaElement.setAttribute('src', mediaElement.getAttribute('data-lazy') || '')
-    mediaElement.removeAttribute('data-lazy')
+  static lazyload(mediaNodeList: NodeList): void {
+    mediaNodeList.forEach(mediaNode => {
+      if (!(mediaNode instanceof HTMLElement) || !mediaNode.hasAttribute('data-lazy')) return
+      mediaNode.setAttribute('src', mediaNode.getAttribute('data-lazy') || '')
+      mediaNode.removeAttribute('data-lazy')
+    })
   }
 
   static getTranslateX(element: HTMLElement): string | null {
