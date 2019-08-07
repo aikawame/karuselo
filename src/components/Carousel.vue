@@ -96,6 +96,13 @@ export default class Carousel extends Vue {
     this.pauseInterval()
   }
 
+  get centerIndex(): number {
+    if (this.isLastSlide) {
+      return Math.ceil(this.slidesToShow / 2) - 1
+    }
+    return this.currentIndex + Math.ceil(this.slidesToShow / 2) - 1
+  }
+
   get isLastSlide(): boolean {
     return this.currentIndex === this.slideNodes.length - this.orgSlideNodes.length
   }
@@ -158,6 +165,12 @@ export default class Carousel extends Vue {
     this.isSliding = true
     this.listNode.style.transition = `transform ${this.speed}ms ease 0s`
     Carousel.setTranslateX(this.listNode, `-${(100 / this.slidesToShow) * this.currentIndex}%`)
+
+    this.slideNodes.forEach(slideNode => {
+      slideNode.classList.remove('karuselo-center')
+    })
+    this.slideNodes[this.centerIndex].classList.add('karuselo-center')
+
     setTimeout(() => {
       this.listNode.style.transition = ''
       if (this.isLastSlide) {
