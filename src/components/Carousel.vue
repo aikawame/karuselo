@@ -1,5 +1,10 @@
 <template>
-  <div class="karuselo-carousel" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+  <div
+    class="karuselo-carousel"
+    @touchstart="onTouchStartCarousel"
+    @touchmove="onTouchMoveCarousel"
+    @touchend="onTouchEndCarousel"
+  >
     <div class="karuselo-arrow karuselo-prev" @click="forceBackward"></div>
     <div class="karuselo-slider" @mouseenter="isFocused = true" @mouseleave="isFocused = false">
       <div class="karuselo-list">
@@ -12,6 +17,12 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+
+const enum Event {
+  TOUCH_START = 'touchstart',
+  TOUCH_MOVE = 'touchmove',
+  TOUCH_END = 'touchend'
+}
 
 const enum SwipeType {
   LEFT = 'left',
@@ -50,12 +61,25 @@ export default class Carousel extends Vue {
   intervalId: number = 0
   isFocused: boolean = false
   isSliding: boolean = false
+  isAnchorTouched: boolean = false
   touchStartX: number = 0
   touchLastX: number = 0
   touchRestX: number = 0
   touchDiffX: number = 0
 
   mounted() {
+    this.$el.querySelectorAll('a').forEach(anchorNode => {
+      anchorNode.addEventListener(Event.TOUCH_START, {
+        handleEvent: (event: TouchEvent) => this.onTouchStartAnchor(event)
+      })
+      anchorNode.addEventListener(Event.TOUCH_MOVE, {
+        handleEvent: (event: TouchEvent) => this.onTouchMoveAnchor(event)
+      })
+      anchorNode.addEventListener(Event.TOUCH_END, {
+        handleEvent: (event: TouchEvent) => this.onTouchEndAnchor(event)
+      })
+    })
+
     this.listNode = this.$el.getElementsByClassName('karuselo-list')[0] as HTMLDivElement
     this.orgSlideNodes = Array.from(this.listNode.children)
     this.orgSlideNodes.forEach(slideNode => {
@@ -85,7 +109,17 @@ export default class Carousel extends Vue {
   }
 
   destroyed() {
-    this.pauseInterval()
+    this.$el.querySelectorAll('a').forEach(anchorNode => {
+      anchorNode.removeEventListener(Event.TOUCH_START, {
+        handleEvent: (event: TouchEvent) => this.onTouchStartAnchor(event)
+      })
+      anchorNode.removeEventListener(Event.TOUCH_MOVE, {
+        handleEvent: (event: TouchEvent) => this.onTouchMoveAnchor(event)
+      })
+      anchorNode.removeEventListener(Event.TOUCH_END, {
+        handleEvent: (event: TouchEvent) => this.onTouchEndAnchor(event)
+      })
+    })
   }
 
   get centerIndex(): number {
@@ -173,14 +207,14 @@ export default class Carousel extends Vue {
     }, this.speed)
   }
 
-  onTouchStart(event: TouchEvent): void {
+  onTouchStartCarousel(event: TouchEvent): void {
     event.preventDefault()
     this.pauseInterval()
     this.touchStartX = event.touches[0].pageX
     this.touchLastX = this.touchStartX
   }
 
-  onTouchMove(event: TouchEvent): void {
+  onTouchMoveCarousel(event: TouchEvent): void {
     event.preventDefault()
     const touchDiffX = this.touchRestX + (event.changedTouches[0].pageX - this.touchLastX)
     if (Math.abs(touchDiffX) > 0) {
@@ -194,7 +228,7 @@ export default class Carousel extends Vue {
     this.touchLastX = event.touches[0].pageX
   }
 
-  onTouchEnd(event: TouchEvent): void {
+  onTouchEndCarousel(event: TouchEvent): void {
     event.preventDefault()
     switch (this.swipeType) {
       case SwipeType.LEFT:
@@ -207,6 +241,25 @@ export default class Carousel extends Vue {
         this.translate()
     }
     this.playInterval()
+  }
+
+  onTouchStartAnchor(event: TouchEvent): void {
+    event.preventDefault()
+    this.isAnchorTouched = true
+  }
+
+  onTouchMoveAnchor(event: TouchEvent): void {
+    event.preventDefault()
+    this.isAnchorTouched = false
+  }
+
+  onTouchEndAnchor(event: TouchEvent): void {
+    event.preventDefault()
+    if (this.isAnchorTouched) {
+      const anchorNode = event.currentTarget
+      if (anchorNode instanceof HTMLAnchorElement) location.href = anchorNode.href
+      this.isAnchorTouched = false
+    }
   }
 
   pauseInterval(): void {
