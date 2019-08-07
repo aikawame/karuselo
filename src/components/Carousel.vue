@@ -1,5 +1,5 @@
 <template>
-  <div class="karuselo-carousel">
+  <div class="karuselo-carousel" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
     <div class="karuselo-arrow karuselo-prev" @click="forceBackward"></div>
     <div class="karuselo-slider" @mouseenter="isFocused = true" @mouseleave="isFocused = false">
       <div class="karuselo-list">
@@ -12,12 +12,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-
-const enum Event {
-  TOUCH_START = 'touchstart',
-  TOUCH_MOVE = 'touchmove',
-  TOUCH_END = 'touchend'
-}
 
 const enum SwipeType {
   LEFT = 'left',
@@ -85,19 +79,12 @@ export default class Carousel extends Vue {
       this.slideNodes.unshift(this.slideNodes.pop())
     }
 
-    this.$el.addEventListener(Event.TOUCH_START, { handleEvent: (event: TouchEvent) => this.onTouchStart(event) })
-    this.$el.addEventListener(Event.TOUCH_MOVE, { handleEvent: (event: TouchEvent) => this.onTouchMove(event) })
-    this.$el.addEventListener(Event.TOUCH_END, { handleEvent: (event: TouchEvent) => this.onTouchEnd(event) })
-
     this.firstLazyload()
     this.forward()
     this.playInterval()
   }
 
   destroyed() {
-    this.$el.removeEventListener(Event.TOUCH_START, { handleEvent: (event: TouchEvent) => this.onTouchStart(event) })
-    this.$el.removeEventListener(Event.TOUCH_MOVE, { handleEvent: (event: TouchEvent) => this.onTouchMove(event) })
-    this.$el.removeEventListener(Event.TOUCH_END, { handleEvent: (event: TouchEvent) => this.onTouchEnd(event) })
     this.pauseInterval()
   }
 
