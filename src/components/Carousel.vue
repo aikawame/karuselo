@@ -68,6 +68,11 @@ export default class Carousel extends Vue {
       slideNode.style.width = `${100 / this.slidesToShow}%`
     })
     this.slideNodes = Object.create(this.orgSlideNodes)
+    if (this.slideNodes.length === 1) {
+      this.slideNodes[0].classList.add('karuselo-center')
+      Carousel.lazyload(this.slideNodes[0].querySelectorAll('img, video'))
+      return
+    }
     this.cloneSlides()
     while (this.slideNodes.length < this.slidesToShow * 2 + 2) {
       // スライド枚数が足りないとレイアウトが崩れるため増やす
