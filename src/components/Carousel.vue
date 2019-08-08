@@ -160,12 +160,14 @@ export default class Carousel extends Vue {
   }
 
   forceForward(): void {
+    if (this.slideNodes.length === 1) return
     this.pauseInterval()
     this.forward()
     this.playInterval()
   }
 
   forceBackward(): void {
+    if (this.slideNodes.length === 1) return
     this.pauseInterval()
     this.backward()
     this.playInterval()
