@@ -17,18 +17,8 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-
-const enum Event {
-  TOUCH_START = 'touchstart',
-  TOUCH_MOVE = 'touchmove',
-  TOUCH_END = 'touchend'
-}
-
-const enum SwipeType {
-  LEFT = 'left',
-  RIGHT = 'right',
-  NEUTRAL = 'neutral'
-}
+import Event from '@/enums/Event'
+import SwipeDirection from '@/enums/SwipeDirection'
 
 @Component
 export default class Carousel extends Vue {
@@ -136,11 +126,11 @@ export default class Carousel extends Vue {
   get swipeType(): string {
     const threshold = this.slideNodes[0].clientWidth * this.translateThreshold
     if (this.touchStartX - this.touchLastX > threshold) {
-      return SwipeType.LEFT
+      return SwipeDirection.LEFT
     } else if (this.touchLastX - this.touchStartX > threshold) {
-      return SwipeType.RIGHT
+      return SwipeDirection.RIGHT
     }
-    return SwipeType.NEUTRAL
+    return SwipeDirection.NEUTRAL
   }
 
   cloneSlides(): void {
@@ -233,10 +223,10 @@ export default class Carousel extends Vue {
   onTouchEndCarousel(event: TouchEvent): void {
     event.preventDefault()
     switch (this.swipeType) {
-      case SwipeType.LEFT:
+      case SwipeDirection.LEFT:
         this.forward()
         break
-      case SwipeType.RIGHT:
+      case SwipeDirection.RIGHT:
         this.backward()
         break
       default:
