@@ -41,7 +41,7 @@ export default class Carousel extends Vue {
   readonly zIndex!: number
 
   // 内部設定
-  translateThreshold: number = 0.2
+  readonly translateThreshold: number = 0.2
 
   // 内部ステータス
   listNode!: HTMLDivElement
