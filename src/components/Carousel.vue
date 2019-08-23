@@ -19,6 +19,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Event from '@/enums/Event'
 import SwipeDirection from '@/enums/SwipeDirection'
+import CssTransform from '@/models/CssTransform'
 
 @Component
 export default class Carousel extends Vue {
@@ -182,7 +183,7 @@ export default class Carousel extends Vue {
   translate(): void {
     this.isSliding = true
     this.listNode.style.transition = `transform ${this.speed}ms ease 0s`
-    Carousel.setTranslateX(this.listNode, `-${(100 / this.slidesToShow) * this.currentIndex}%`)
+    CssTransform.setTranslateX(this.listNode, `-${(100 / this.slidesToShow) * this.currentIndex}%`)
 
     this.slideNodes.forEach(slideNode => {
       slideNode.classList.remove('karuselo-center')
@@ -192,7 +193,7 @@ export default class Carousel extends Vue {
     setTimeout(() => {
       this.listNode.style.transition = ''
       if (this.isLastSlide) {
-        Carousel.setTranslateX(this.listNode, '0')
+        CssTransform.setTranslateX(this.listNode, '0')
         this.currentIndex = 0
       }
       this.isSliding = false
@@ -213,7 +214,10 @@ export default class Carousel extends Vue {
       this.touchDiffX = Math.floor(touchDiffX)
       this.touchRestX = touchDiffX - this.touchDiffX
       this.listNode.style.transitionDuration = '0ms'
-      Carousel.setTranslateX(this.listNode, `calc(${Carousel.getTranslateX(this.listNode)} + ${this.touchDiffX}px)`)
+      CssTransform.setTranslateX(
+        this.listNode,
+        `calc(${CssTransform.getTranslateX(this.listNode)} + ${this.touchDiffX}px)`
+      )
     } else {
       this.touchRestX = touchDiffX
     }
@@ -270,15 +274,6 @@ export default class Carousel extends Vue {
       mediaNode.setAttribute('src', mediaNode.getAttribute('data-lazy') || '')
       mediaNode.removeAttribute('data-lazy')
     })
-  }
-
-  static getTranslateX(element: HTMLElement): string | null {
-    if (element.style.transform === null) return null
-    return element.style.transform.replace('translateX(', '').replace(')', '')
-  }
-
-  static setTranslateX(element: HTMLElement, value: string): void {
-    element.style.transform = `translateX(${value})`
   }
 }
 </script>
