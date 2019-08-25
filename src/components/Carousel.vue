@@ -20,6 +20,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import Event from '@/enums/Event'
 import SwipeDirection from '@/enums/SwipeDirection'
 import CssTransform from '@/models/CssTransform'
+import Lazyload from '@/models/Lazyload'
 
 @Component
 export default class Carousel extends Vue {
@@ -79,7 +80,7 @@ export default class Carousel extends Vue {
     this.slideNodes = Object.create(this.orgSlideNodes)
     if (this.slideNodes.length === 1) {
       this.slideNodes[0].classList.add('karuselo-center')
-      Carousel.lazyload(this.slideNodes[0].querySelectorAll('img, video'))
+      Lazyload.execute(this.slideNodes[0].querySelectorAll('img, video'))
       return
     }
     this.cloneSlides()
@@ -146,7 +147,7 @@ export default class Carousel extends Vue {
 
   firstLazyload(): void {
     for (let index = 0; index <= this.slidesToShow + 1; index++) {
-      Carousel.lazyload(this.slideNodes[index].querySelectorAll('img, video'))
+      Lazyload.execute(this.slideNodes[index].querySelectorAll('img, video'))
     }
   }
 
@@ -167,7 +168,7 @@ export default class Carousel extends Vue {
   forward(): void {
     if (this.isFocused || this.isSliding) return
     // console.log('forward')
-    Carousel.lazyload(this.slideNodes[this.currentIndex + this.slidesToShow + 1].querySelectorAll('img, video'))
+    Lazyload.execute(this.slideNodes[this.currentIndex + this.slidesToShow + 1].querySelectorAll('img, video'))
     if (this.currentIndex < this.slideNodes.length) this.currentIndex++
     this.translate()
   }
@@ -175,7 +176,7 @@ export default class Carousel extends Vue {
   backward(): void {
     if (this.isFocused || this.isSliding) return
     // console.log('backward')
-    Carousel.lazyload(this.slideNodes[0].querySelectorAll('img, video'))
+    Lazyload.execute(this.slideNodes[0].querySelectorAll('img, video'))
     if (this.currentIndex > 1) this.currentIndex--
     this.translate()
   }
@@ -266,14 +267,6 @@ export default class Carousel extends Vue {
   playInterval(): void {
     if (!this.autoplay) return
     this.intervalId = setInterval(this.forward, this.autoplaySpeed + this.speed)
-  }
-
-  static lazyload(mediaNodeList: NodeList): void {
-    mediaNodeList.forEach(mediaNode => {
-      if (!(mediaNode instanceof HTMLElement) || !mediaNode.hasAttribute('data-lazy')) return
-      mediaNode.setAttribute('src', mediaNode.getAttribute('data-lazy') || '')
-      mediaNode.removeAttribute('data-lazy')
-    })
   }
 }
 </script>
