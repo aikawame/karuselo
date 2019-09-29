@@ -202,14 +202,12 @@ export default class Carousel extends Vue {
   }
 
   onTouchStartCarousel(event: TouchEvent): void {
-    event.preventDefault()
     this.pauseInterval()
     this.touchStartX = event.touches[0].pageX
     this.touchLastX = this.touchStartX
   }
 
   onTouchMoveCarousel(event: TouchEvent): void {
-    event.preventDefault()
     const touchDiffX = this.touchRestX + (event.changedTouches[0].pageX - this.touchLastX)
     if (Math.abs(touchDiffX) > 0) {
       this.touchDiffX = Math.floor(touchDiffX)
@@ -225,8 +223,7 @@ export default class Carousel extends Vue {
     this.touchLastX = event.touches[0].pageX
   }
 
-  onTouchEndCarousel(event: TouchEvent): void {
-    event.preventDefault()
+  onTouchEndCarousel(_event: TouchEvent): void {
     switch (this.swipeType) {
       case SwipeDirection.LEFT:
         this.forward()
@@ -240,18 +237,15 @@ export default class Carousel extends Vue {
     this.playInterval()
   }
 
-  onTouchStartAnchor(event: TouchEvent): void {
-    event.preventDefault()
+  onTouchStartAnchor(_event: TouchEvent): void {
     this.isAnchorTouched = true
   }
 
-  onTouchMoveAnchor(event: TouchEvent): void {
-    event.preventDefault()
+  onTouchMoveAnchor(_event: TouchEvent): void {
     this.isAnchorTouched = false
   }
 
   onTouchEndAnchor(event: TouchEvent): void {
-    event.preventDefault()
     if (this.isAnchorTouched) {
       const anchorNode = event.currentTarget
       if (anchorNode instanceof HTMLAnchorElement) location.href = anchorNode.href
