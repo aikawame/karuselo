@@ -5,13 +5,13 @@
     @touchmove="onTouchMoveCarousel"
     @touchend="onTouchEndCarousel"
   >
-    <div class="karuselo-arrow karuselo-prev" @click="forceBackward"></div>
+    <div class="karuselo-arrow karuselo-prev" @click="forceBackward" v-if="arrows"></div>
     <div class="karuselo-slider" @mouseenter="isFocused = true" @mouseleave="isFocused = false">
       <div class="karuselo-list">
         <slot></slot>
       </div>
     </div>
-    <div class="karuselo-arrow karuselo-next" @click="forceForward"></div>
+    <div class="karuselo-arrow karuselo-next" @click="forceForward" v-if="arrows"></div>
   </div>
 </template>
 
@@ -24,6 +24,9 @@ import Lazyload from '@/models/Lazyload'
 
 @Component
 export default class Carousel extends Vue {
+  @Prop({ default: true })
+  readonly arrows!: boolean
+
   @Prop({ default: false })
   readonly autoplay!: boolean
 
