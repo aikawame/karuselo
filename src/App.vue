@@ -6,6 +6,7 @@
         :autoplay="true"
         :auto-play-speed="2000"
         :center-mode="false"
+        :dots="true"
         :slides-to-show="3"
         :speed="500"
         :z-index="10000"
@@ -165,6 +166,21 @@ h1 {
 .karuselo-prev::before {
   content: '<';
   left: -60px;
+}
+
+.karuselo-dots {
+  text-align: center;
+}
+
+.karuselo-dot::before {
+  color: #999;
+  content: '•';
+  font-size: 60px;
+  line-height: 40px;
+}
+
+.karuselo-dot.active::before {
+  color: #000;
 }
 
 .media video,

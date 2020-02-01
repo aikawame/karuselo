@@ -12,6 +12,15 @@
       </div>
     </div>
     <div class="karuselo-arrow karuselo-next" @click="forceForward" v-if="arrows"></div>
+    <div class="karuselo-dots" v-if="dots">
+      <span
+        class="karuselo-dot"
+        :class="{ active: index === currentDotIndex }"
+        @click="changeIndex(index)"
+        v-for="index in orgSlideNodes.length"
+        :key="index"
+      ></span>
+    </div>
   </div>
 </template>
 
@@ -35,6 +44,9 @@ export default class Carousel extends Vue {
 
   @Prop({ default: false })
   readonly centerMode!: boolean
+
+  @Prop({ default: false })
+  readonly dots!: boolean
 
   @Prop({ default: 1 })
   readonly slidesToShow!: number
@@ -124,6 +136,11 @@ export default class Carousel extends Vue {
     return this.currentIndex + Math.ceil(this.slidesToShow / 2) - 1
   }
 
+  get currentDotIndex(): number {
+    // TODO: インデックスを統一する
+    return this.currentIndex === 0 ? this.orgSlideNodes.length : this.currentIndex
+  }
+
   get isLastSlide(): boolean {
     return this.currentIndex === this.slideNodes.length - this.orgSlideNodes.length
   }
@@ -157,6 +174,7 @@ export default class Carousel extends Vue {
   forceForward(): void {
     if (this.slideNodes.length === 1) return
     this.pauseInterval()
+    this.isSliding = false
     this.forward()
     this.playInterval()
   }
@@ -164,6 +182,7 @@ export default class Carousel extends Vue {
   forceBackward(): void {
     if (this.slideNodes.length === 1) return
     this.pauseInterval()
+    this.isSliding = false
     this.backward()
     this.playInterval()
   }
@@ -182,6 +201,14 @@ export default class Carousel extends Vue {
     Lazyload.execute(this.slideNodes[0].querySelectorAll('img, video'))
     if (this.currentIndex > 1) this.currentIndex--
     this.translate()
+  }
+
+  changeIndex(index: number): void {
+    if (index > this.currentDotIndex) {
+      ;[...Array(index - this.currentDotIndex)].map(() => this.forceForward())
+    } else if (index < this.currentDotIndex) {
+      ;[...Array(this.currentDotIndex - index)].map(() => this.forceBackward())
+    }
   }
 
   translate(): void {
