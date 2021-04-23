@@ -89,6 +89,7 @@ export default class Carousel extends Vue {
 
     this.listNode = this.$el.getElementsByClassName('karuselo-list')[0] as HTMLDivElement
     this.orgSlideNodes = Array.from(this.listNode.children)
+    if (this.orgSlideNodes.length < 1) return
     this.orgSlideNodes.forEach(slideNode => {
       slideNode.style.width = `${100 / this.slidesToShow}%`
     })
