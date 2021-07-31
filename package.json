@@ -31,8 +31,8 @@
     "src"
   ],
   "dependencies": {
-    "core-js": "^3.12.1",
-    "vue": "^2.6.11"
+    "core-js": "^3.16.0",
+    "vue": "^2.6.14"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
@@ -45,18 +45,18 @@
     "@vue/cli-service": "^4.5.13",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
-    "@vue/test-utils": "^1.2.0",
+    "@vue/test-utils": "^1.2.2",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-vue": "^6.2.2",
     "ts-jest": "^25.3.1",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.10",
     "vue-class-component": "^7.2.3",
     "vue-cli-plugin-p11n": "^0.4.0",
     "vue-property-decorator": "^8.4.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
     "root": true,
